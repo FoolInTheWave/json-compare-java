@@ -31,3 +31,6 @@ hs_err_pid*
 # build
 build/
 target/
+
+# node
+node_modules/

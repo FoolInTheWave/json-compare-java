@@ -7,8 +7,6 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
-@Tag("error-dialog")
-@JsModule("./src/error-dialog.js")
 public class ErrorDialog extends PolymerTemplate<ErrorDialog.ErrorDialogModel> {
 
 	@Id("dialog")

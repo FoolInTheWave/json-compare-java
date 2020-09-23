@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.oreillyauto.testutil.view.model.FieldComparison;
 import com.vaadin.flow.component.ClientCallable;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import me.calebmiller.web.comparator.JsonObjectComparator;
@@ -34,6 +37,22 @@ public class CompareView extends HorizontalLayout {
 
 	private ObjectNode object1;
 	private ObjectNode object2;
+
+	private TextArea uiTextArea1;
+	private TextArea uiTextArea2;
+	private Button uiCompareButtonn;
+
+	public CompareView() {
+		setId("compare-view");
+		uiTextArea1 = new TextArea("JSON Object 1");
+		uiTextArea2 = new TextArea("JSON Object 2");
+		uiCompareButtonn = new Button("Compare");
+		add(uiTextArea1, uiTextArea2, uiCompareButtonn);
+		setVerticalComponentAlignment(Alignment.END, uiTextArea1, uiCompareButtonn);
+		uiCompareButtonn.addClickListener( e-> {
+			Notification.show("Compare button pressed");
+		});
+	}
 
 	@ClientCallable
 	private void compareObjects() {

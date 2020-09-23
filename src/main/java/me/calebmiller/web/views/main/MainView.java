@@ -19,6 +19,7 @@ import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.Theme;
+import me.calebmiller.web.views.CompareView;
 import me.calebmiller.web.views.helloworld.HelloWorldView;
 import me.calebmiller.web.views.about.AboutView;
 import com.vaadin.flow.theme.lumo.Lumo;
@@ -82,6 +83,7 @@ public class MainView extends AppLayout {
 
     private Component[] createMenuItems() {
         return new Tab[] {
+            createTab("Compare JSON", CompareView.class),
             createTab("Hello World", HelloWorldView.class),
             createTab("About", AboutView.class)
         };

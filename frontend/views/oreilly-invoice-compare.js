@@ -1,3 +1,4 @@
+// Convert to LitElement
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 

@@ -3,8 +3,8 @@ import '@vaadin/vaadin-button';
 import '@vaadin/vaadin-text-field';
 import { css, customElement, html, LitElement } from 'lit-element';
 
-@customElement('j-son-compare-view')
-export class JSONCompareView extends LitElement {
+@customElement('json-compare-view')
+export class JsonCompareView extends LitElement {
   name: string = '';
 
   static get styles() {

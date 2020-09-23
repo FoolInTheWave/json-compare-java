@@ -17,12 +17,12 @@ const routes = [
 		{
 			path: '',
 			component: 'j-son-compare-view', 
-			action: async () => { await import ('./views/jsoncompare/j-son-compare-view'); }
+			action: async () => { await import ('./views/jsoncompare/json-compare-view'); }
 		},
 		{
 			path: 'json-compare',
 			component: 'j-son-compare-view', 
-			action: async () => { await import ('./views/jsoncompare/j-son-compare-view'); }
+			action: async () => { await import ('./views/jsoncompare/json-compare-view'); }
 		},
  		// for server-side, the next magic line sends all unmatched routes:
 		...serverSideRoutes // IMPORTANT: this must be the last entry in the array

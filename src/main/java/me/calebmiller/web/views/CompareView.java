@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+// TODO convert to endpoint
 @Route(value = "compare", layout = MainView.class)
 @PageTitle("Hello World")
 @CssImport("./styles/views/helloworld/hello-world-view.css")

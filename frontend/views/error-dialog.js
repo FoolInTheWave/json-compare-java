@@ -1,3 +1,4 @@
+// TODO convert to LitElement
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import '@vaadin/vaadin-dialog/vaadin-dialog.js';
@@ -7,7 +8,7 @@ import '../styles/shared-styles.js';
 class ErrorDialog extends PolymerElement {
     static get template() {
         return html`
-        <style include="shared-styles avocado-dialog-styles">
+        <style include="shared-styles dialog-styles">
             #dialogGrid {
                 grid-template-columns: auto;
                 grid-template-rows: auto;

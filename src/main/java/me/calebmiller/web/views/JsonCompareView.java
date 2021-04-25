@@ -6,14 +6,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.oreillyauto.testutil.view.model.FieldComparison;
-import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -42,25 +46,39 @@ public class JsonCompareView extends HorizontalLayout {
 
 	private TextArea uiTextArea1;
 	private TextArea uiTextArea2;
-	private Button uiCompareButtonn;
+	private Button uiCompareButton;
 
 	public JsonCompareView() {
 		setId("json-compare-view");
-		addClassName("hello-world-view");
+		addClassName("json-compare-view");
 
 		uiTextArea1 = new TextArea("JSON Object 1");
 		uiTextArea2 = new TextArea("JSON Object 2");
-		uiCompareButtonn = new Button("Compare");
-		add(uiTextArea1, uiTextArea2, uiCompareButtonn);
+		uiCompareButton = new Button("Compare");
 
-		setVerticalComponentAlignment(Alignment.END, uiTextArea1, uiCompareButtonn);
+		HorizontalLayout horizontalLayout = new HorizontalLayout();
+		horizontalLayout.setPadding(true);
+		// Adds and flex-grows both components
+		horizontalLayout.addAndExpand(uiTextArea1, uiTextArea2);
 
-		uiCompareButtonn.addClickListener( e-> {
-			Notification.show("Compare button pressed");
+		VerticalLayout verticalLayout = new VerticalLayout();
+		verticalLayout.add(horizontalLayout, uiCompareButton);
+		verticalLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, uiCompareButton);
+		verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+		add(verticalLayout);
+
+		Accordion accordion = new Accordion();
+		accordion.add("Input", verticalLayout);
+		AccordionPanel disabledPanel = accordion.add("Result", new Span("TODO"));
+		disabledPanel.setEnabled(false);
+		add(accordion);
+
+		uiCompareButton.addClickListener(e-> {
+			Notification.show("Comparing JSON objects...");
+			compareObjects();
 		});
 	}
 
-	@ClientCallable
 	private void compareObjects() {
 		getJsonObjects();
 		if (object1 != null && object2 != null) {
@@ -78,9 +96,8 @@ public class JsonCompareView extends HorizontalLayout {
 	}
 
 	private void getJsonObjects() {
-		// TODO Get JSON from text areas
-		String jsonString1 = "{}";
-		String jsonString2 = "{}";
+		String jsonString1 = uiTextArea1.getValue();
+		String jsonString2 = uiTextArea2.getValue();
 		try {
 			JsonNode jsonNode1 = objectMapper.readTree(jsonString1);
 			JsonNode jsonNode2 = objectMapper.readTree(jsonString2);

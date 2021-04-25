@@ -1,8 +1,9 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.4.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.springframework.boot' version '2.4.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'com.vaadin' version '0.17.0.0'
+
+    id 'com.vaadin' version '0.17.0.1'
 }
 
 defaultTasks("clean", "build")
@@ -17,7 +18,7 @@ repositories {
 }
 
 ext {
-    set('vaadinVersion', "17.0.2")
+    set('vaadinVersion', "19.0.5")
 }
 
 configurations {
@@ -29,7 +30,7 @@ configurations {
 
 dependencies {
     implementation('com.vaadin:vaadin-spring-boot-starter') {
-//         Webjars are only needed when running in Vaadin 13 compatibility mode
+        // Webjars are only needed when running in Vaadin 13 compatibility mode
         ["com.vaadin.webjar", "org.webjars.bowergithub.insites",
          "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
          "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents"]
@@ -52,5 +53,5 @@ test {
 }
 
 vaadin {
-    pnpmEnable = true
+    optimizeBundle = false
 }

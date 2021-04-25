@@ -98,10 +98,9 @@ public class JsonCompareView extends HorizontalLayout {
 		dialog.setCloseOnEsc(false);
 		dialog.setCloseOnOutsideClick(false);
 
-		Button confirmButton = new Button("OK", event -> {
-			dialog.close();
-		});
-
+		Button confirmButton = new Button("OK", event -> dialog.close());
 		dialog.add(new Div(confirmButton));
+
+		dialog.open();
 	}
 }

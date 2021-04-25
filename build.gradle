@@ -9,7 +9,7 @@ plugins {
 defaultTasks("clean", "build")
 
 group = 'me.calebmiller.web'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 description = 'JSON Comparison'
 sourceCompatibility = '1.8'
 

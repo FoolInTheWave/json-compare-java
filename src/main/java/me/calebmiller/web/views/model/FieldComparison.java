@@ -1,4 +1,4 @@
-package com.oreillyauto.testutil.view.model;
+package me.calebmiller.web.views.model;
 
 import java.util.List;
 

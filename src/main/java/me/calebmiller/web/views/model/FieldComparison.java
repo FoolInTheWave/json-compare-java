@@ -1,6 +1,7 @@
 package me.calebmiller.web.views.model;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class FieldComparison {
 
@@ -57,5 +58,12 @@ public class FieldComparison {
 
 	public void setChildFields(List<FieldComparison> childFields) {
 		this.childFields = childFields;
+	}
+
+	public Stream<FieldComparison> streamAll(){
+		if (getChildFields() == null) {
+			return Stream.of(this);
+		}
+		return Stream.concat(Stream.of(this), getChildFields().stream().flatMap(FieldComparison::streamAll));
 	}
 }

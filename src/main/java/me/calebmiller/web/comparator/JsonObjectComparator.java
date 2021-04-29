@@ -94,7 +94,8 @@ public class JsonObjectComparator {
 
 	private List<Field> iterate(ObjectNode jsonObject1, ObjectNode jsonObject2) {
 		List<Field> fields = new ArrayList<>();
-		jsonObject1.fieldNames().forEachRemaining( fieldName -> {
+		Set<String> fieldNames = getAllFieldNames(jsonObject1, jsonObject2);
+		fieldNames.forEach(fieldName -> {
 			Field field = getField(fieldName, jsonObject1.get(fieldName), jsonObject2.get(fieldName));
 			handleChildObjects(field);
 			fields.add(field);
@@ -105,13 +106,19 @@ public class JsonObjectComparator {
 	private void iterateChildren(Field parentField, ObjectNode child1, ObjectNode child2) {
 		ObjectNode childObject1 = child1 == null ? JsonNodeFactory.instance.objectNode() : child1;
 		ObjectNode childObject2 = child2 == null ? JsonNodeFactory.instance.objectNode() : child2;
-		Set<String> fieldNames = !isEmpty(childObject1) ? getAsSet(childObject1.fieldNames())
-				: getAsSet(childObject2.fieldNames());
+		Set<String> fieldNames = getAllFieldNames(childObject1, childObject2);
 		fieldNames.forEach(fieldName -> {
 			Field field = getField(fieldName, childObject1.get(fieldName), childObject2.get(fieldName));
 			handleChildObjects(field);
 			parentField.getChildFields().add(field);
 		});
+	}
+
+	private Set<String> getAllFieldNames(ObjectNode jsonObject1, ObjectNode jsonObject2) {
+		Set<String> fieldNames = new HashSet<>();
+		jsonObject1.fieldNames().forEachRemaining(fieldNames::add);
+		jsonObject2.fieldNames().forEachRemaining(fieldNames::add);
+		return fieldNames;
 	}
 
 	private void handleChildObjects(Field field) {

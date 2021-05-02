@@ -3,7 +3,6 @@ package me.calebmiller.web.views;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -52,14 +51,18 @@ public class JsonCompareView extends HorizontalLayout {
 	private Details inputArea;
 	private Details outputArea;
 
+	private boolean isInputValid = false;
+
 	public JsonCompareView() {
 		setId("json-compare-view");
 		addClassName("json-compare-view");
 
 		uiTextArea1 = new TextArea("JSON Object 1");
+		uiTextArea1.addClassName("json-text-area");
 		uiTextArea2 = new TextArea("JSON Object 2");
-		uiCompareButton = new Button("Compare");
+		uiTextArea2.addClassName("json-text-area");
 
+		uiCompareButton = new Button("Compare");
 		uiCompareButton.addClickListener(e-> {
 			Notification.show("Comparing JSON objects...");
 			compareObjects();
@@ -87,7 +90,7 @@ public class JsonCompareView extends HorizontalLayout {
 
 	private void compareObjects() {
 		getJsonObjects();
-		if (object1 != null && object2 != null) {
+		if (isInputValid = true && object1 != null && object2 != null) {
 			List<FieldComparison> fieldComparisons = jsonObjectComparator.compare(object1, object2);
 			try {
 				TreeGrid<FieldComparison> grid = new TreeGrid<>();
@@ -95,10 +98,16 @@ public class JsonCompareView extends HorizontalLayout {
 				grid.addHierarchyColumn(FieldComparison::getFieldName).setHeader("Field");
 				grid.addColumn(FieldComparison::getField1Value).setHeader("Object 1");
 				grid.addColumn(FieldComparison::getField2Value).setHeader("Object 2");
+				grid.setClassNameGenerator(fieldComparison -> !fieldComparison.getMatch() ? "mismatch mismatch-value" : "");
+				grid.setId("jsonCompareTreeGrid");
 
-				outputArea.setContent(grid);
+				VerticalLayout verticalLayout = new VerticalLayout(grid);
+				verticalLayout.addClassName("vertical-container");
+
+				outputArea.setContent(verticalLayout);
 				outputArea.setEnabled(true);
 				outputArea.setOpened(true);
+				inputArea.setOpened(false);
 			} catch (Exception e) {
 				logger.error("error setting result to view: {}", e.getMessage());
 				showDialog("Error setting result to view.");
@@ -107,13 +116,30 @@ public class JsonCompareView extends HorizontalLayout {
 	}
 
 	private void getJsonObjects() {
+		isInputValid = false;
+
 		String jsonString1 = uiTextArea1.getValue();
 		String jsonString2 = uiTextArea2.getValue();
+
 		try {
 			JsonNode jsonNode1 = objectMapper.readTree(jsonString1);
 			JsonNode jsonNode2 = objectMapper.readTree(jsonString2);
-			object1 = jsonNode1.isObject() ? (ObjectNode) jsonNode1 : JsonNodeFactory.instance.objectNode();
-			object2 = jsonNode2.isObject() ? (ObjectNode) jsonNode2 : JsonNodeFactory.instance.objectNode();
+
+			if (jsonNode1.isObject()) {
+				object1 = (ObjectNode) jsonNode1;
+			} else {
+				showDialog("Input in JSON Object 1 text area is not a valid JSON object.");
+				return;
+			}
+
+			if (jsonNode2.isObject()) {
+				object2 = (ObjectNode) jsonNode2;
+			} else {
+				showDialog("Input in JSON Object 2 text area is not a valid JSON object.");
+				return;
+			}
+
+			isInputValid = true;
 		} catch (JsonProcessingException e) {
 			logger.error("error parsing json into object: {}", e.getMessage());
 			showDialog("Error parsing entered JSON into object.");

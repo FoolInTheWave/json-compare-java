@@ -2,3 +2,16 @@
   display: block;
   padding: 1em;
 }
+
+.json-text-area {
+  max-height: 750px;
+}
+
+.vertical-container {
+  min-width: 100%;
+  height: 750px;
+}
+
+#jsonCompareTreeGrid {
+  height: 100%;
+}

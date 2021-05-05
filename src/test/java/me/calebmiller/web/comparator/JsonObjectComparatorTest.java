@@ -81,4 +81,16 @@ class JsonObjectComparatorTest {
 		Arrays.sort(expected);
 		assertArrayEquals(expected, result);
 	}
+
+	@Test
+	void when_JsonObjectsWithDuplicateKeys_Expect_ResultToContainLastKeyValue() throws JsonProcessingException {
+		ObjectNode object1 = (ObjectNode) objectMapper.readTree("{ \"key\": 1, \"key\": 2, \"key\": 3 }");
+		ObjectNode object2 = (ObjectNode) objectMapper.readTree("{ \"key\": 1, \"key\": 2, \"key\": 3 }");
+
+		List<FieldComparison> fieldComparisons = comparator.compare(object1, object2);
+
+		assertEquals(1, fieldComparisons.size());
+		assertEquals(3, Integer.valueOf(fieldComparisons.get(0).getField1Value()));
+		assertEquals(3, Integer.valueOf(fieldComparisons.get(0).getField2Value()));
+	}
 }

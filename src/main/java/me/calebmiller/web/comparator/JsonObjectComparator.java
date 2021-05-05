@@ -25,8 +25,8 @@ public class JsonObjectComparator {
 
 		private boolean hasChildren = false;
 		private String fieldName;
-		private JsonNode value1;	// Value of field on first object
-		private JsonNode value2; // Value of field on second object
+		private JsonNode value1;    // Value of field on first object
+		private JsonNode value2;    // Value of field on second object
 		private List<Field> childFields = new ArrayList<>();
 
 		boolean isHasChildren() {

@@ -30,7 +30,7 @@ class JsonObjectComparatorTest {
 		if (fieldComparison.isPresent()) {
 			assertTrue(fieldComparison.get().getMatch());
 		} else {
-			 fail("Expected field was not in the comparison result.");
+			fail("Expected field was not in the comparison result.");
 		}
 	}
 
@@ -58,7 +58,7 @@ class JsonObjectComparatorTest {
 				.collect(Collectors.toList());
 
 		String[] result = flattenedComparisons.stream().map(FieldComparison::getFieldName).distinct().toArray(String[]::new);
-		String[] expected = new String[] {"name", "age", "id", "date"};
+		String[] expected = new String[]{"name", "age", "id", "date"};
 
 		Arrays.sort(result);
 		Arrays.sort(expected);
@@ -75,7 +75,7 @@ class JsonObjectComparatorTest {
 				.collect(Collectors.toList());
 
 		String[] result = flattenedComparisons.stream().map(FieldComparison::getFieldName).distinct().toArray(String[]::new);
-		String[] expected = new String[] {"name", "child", "id", "date"};
+		String[] expected = new String[]{"name", "child", "id", "date"};
 
 		Arrays.sort(result);
 		Arrays.sort(expected);
@@ -92,5 +92,17 @@ class JsonObjectComparatorTest {
 		assertEquals(1, fieldComparisons.size());
 		assertEquals(3, Integer.valueOf(fieldComparisons.get(0).getField1Value()));
 		assertEquals(3, Integer.valueOf(fieldComparisons.get(0).getField2Value()));
+	}
+
+	@Test
+	void when_JsonObjectsWithSameKeysWithDifferentValueTypes_Expect_FieldsToNotMatch() throws JsonProcessingException {
+		ObjectNode object1 = (ObjectNode) objectMapper.readTree("{ \"key\": 1, \"key2\": \"2\" }");
+		ObjectNode object2 = (ObjectNode) objectMapper.readTree("{ \"key\": \"value\", \"key2\": 2 }");
+
+		List<FieldComparison> fieldComparisons = comparator.compare(object1, object2);
+
+		assertEquals(2, fieldComparisons.size());
+		assertFalse(fieldComparisons.get(0).getMatch());
+		assertFalse(fieldComparisons.get(1).getMatch());
 	}
 }

@@ -64,7 +64,6 @@ public class JsonCompareView extends HorizontalLayout {
 
 		uiCompareButton = new Button("Compare");
 		uiCompareButton.addClickListener(e-> {
-			Notification.show("Comparing JSON objects...");
 			compareObjects();
 		});
 

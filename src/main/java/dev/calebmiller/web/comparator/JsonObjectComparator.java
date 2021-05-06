@@ -1,4 +1,4 @@
-package me.calebmiller.web.comparator;
+package dev.calebmiller.web.comparator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import me.calebmiller.web.views.model.FieldComparison;
+import dev.calebmiller.web.views.model.FieldComparison;
 
 public class JsonObjectComparator {
 

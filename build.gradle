@@ -6,9 +6,9 @@ plugins {
     id 'com.vaadin' version '0.17.0.1'
 }
 
-defaultTasks("clean", "build")
+defaultTasks("clean", "vaadinBuildFrontend", "build")
 
-group = 'me.calebmiller.web'
+group = 'dev.calebmiller.web'
 version = '1.0.0-SNAPSHOT'
 description = 'JSON Comparison'
 sourceCompatibility = '1.8'

@@ -1,4 +1,4 @@
-package me.calebmiller.web;
+package dev.calebmiller.web;
 
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;

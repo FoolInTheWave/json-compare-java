@@ -1,4 +1,4 @@
-package me.calebmiller.web.views.model;
+package dev.calebmiller.web.views.model;
 
 import java.util.List;
 import java.util.stream.Stream;

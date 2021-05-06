@@ -1,4 +1,4 @@
-package me.calebmiller.web.comparator;
+package dev.calebmiller.web.comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import me.calebmiller.web.views.model.FieldComparison;
+import dev.calebmiller.web.views.model.FieldComparison;
 
 class JsonObjectComparatorTest {
 

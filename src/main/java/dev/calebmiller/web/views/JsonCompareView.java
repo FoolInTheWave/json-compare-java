@@ -1,4 +1,4 @@
-package me.calebmiller.web.views;
+package dev.calebmiller.web.views;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,7 +11,6 @@ import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -21,8 +20,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
-import me.calebmiller.web.comparator.JsonObjectComparator;
-import me.calebmiller.web.views.model.FieldComparison;
+import dev.calebmiller.web.comparator.JsonObjectComparator;
+import dev.calebmiller.web.views.model.FieldComparison;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

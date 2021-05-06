@@ -42,6 +42,7 @@ import '@vaadin/vaadin-lumo-styles/color.js';
 import '@vaadin/vaadin-lumo-styles/spacing.js';
 import '@vaadin/vaadin-lumo-styles/badge.js';
 import vaadinGridCss from 'themes/json-compare-java/components/vaadin-grid.css';
+import vaadinTextAreaCss from 'themes/json-compare-java/components/vaadin-text-area.css';
 
 window.Vaadin = window.Vaadin || {};
 window.Vaadin['_vaadintheme_json-compare-java_globalCss'] = window.Vaadin['_vaadintheme_json-compare-java_globalCss'] || [];
@@ -58,6 +59,12 @@ export const applyTheme = (target) => {
       'vaadin-grid',
       css`
         ${unsafeCSS(vaadinGridCss.toString())}
+      `
+    );
+    registerStyles(
+      'vaadin-text-area',
+      css`
+        ${unsafeCSS(vaadinTextAreaCss.toString())}
       `
     );
     

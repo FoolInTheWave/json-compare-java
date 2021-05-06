@@ -26,7 +26,7 @@ const themePartRegex = /(\\|\/)themes\1[\s\S]*?\1/;
 //  - flow templates for classic Flow
 //  - client code with index.html and index.[ts/js] for CCDM
 const frontendFolder = path.resolve(__dirname, 'frontend');
-const frontendGeneratedFolder = path.resolve(__dirname, './frontend/generated');
+const frontendGeneratedFolder = path.resolve(__dirname, 'frontend/generated');
 const fileNameOfTheFlowGeneratedMainEntryPoint = path.resolve(__dirname, 'target/frontend/generated-flow-imports.js');
 const mavenOutputFolderForFlowBundledFiles = path.resolve(__dirname, 'target/META-INF/VAADIN/webapp');
 const mavenOutputFolderForResourceFiles = path.resolve(__dirname, 'target/META-INF/VAADIN');

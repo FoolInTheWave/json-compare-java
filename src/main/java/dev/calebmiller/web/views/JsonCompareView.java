@@ -32,7 +32,6 @@ import java.util.List;
 @RouteAlias(value = "")
 @PageTitle("JSON Compare")
 @CssImport("./themes/json-compare-java/views/json-compare-view.css")
-@CssImport(value = "./themes/json-compare-java/components/vaadin-grid.css", themeFor = "vaadin-grid")
 public class JsonCompareView extends HorizontalLayout {
 
 	private final Logger logger = LoggerFactory.getLogger(JsonCompareView.class);
@@ -88,7 +87,7 @@ public class JsonCompareView extends HorizontalLayout {
 
 	private void compareObjects() {
 		getJsonObjects();
-		if (isInputValid = true && object1 != null && object2 != null) {
+		if (isInputValid) {
 			List<FieldComparison> fieldComparisons = jsonObjectComparator.compare(object1, object2);
 			try {
 				TreeGrid<FieldComparison> grid = new TreeGrid<>();
@@ -106,6 +105,10 @@ public class JsonCompareView extends HorizontalLayout {
 				outputArea.setEnabled(true);
 				outputArea.setOpened(true);
 				inputArea.setOpened(false);
+
+				// set formatted JSON back to input
+				uiTextArea1.setValue(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object1));
+				uiTextArea2.setValue(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object2));
 			} catch (Exception e) {
 				logger.error("error setting result to view: {}", e.getMessage());
 				showDialog("Error setting result to view.");

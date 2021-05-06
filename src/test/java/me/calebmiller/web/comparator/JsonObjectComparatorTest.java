@@ -116,4 +116,15 @@ class JsonObjectComparatorTest {
 		assertEquals(1, fieldComparisons.size());
 		assertFalse(fieldComparisons.get(0).getMatch());
 	}
+
+	@Test
+	void when_JsonObjectsWithSameKeysWithBothValueOfNull_Expect_FieldsToMatch() throws JsonProcessingException {
+		ObjectNode object1 = (ObjectNode) objectMapper.readTree("{ \"key\": null }");
+		ObjectNode object2 = (ObjectNode) objectMapper.readTree("{ \"key\": null }");
+
+		List<FieldComparison> fieldComparisons = comparator.compare(object1, object2);
+
+		assertEquals(1, fieldComparisons.size());
+		assertTrue(fieldComparisons.get(0).getMatch());
+	}
 }

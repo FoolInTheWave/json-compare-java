@@ -28,8 +28,8 @@ const themePartRegex = /(\\|\/)themes\1[\s\S]*?\1/;
 const frontendFolder = path.resolve(__dirname, 'frontend');
 const frontendGeneratedFolder = path.resolve(__dirname, 'frontend/generated');
 const fileNameOfTheFlowGeneratedMainEntryPoint = path.resolve(__dirname, 'target/frontend/generated-flow-imports.js');
-const mavenOutputFolderForFlowBundledFiles = path.resolve(__dirname, 'target/META-INF/VAADIN/webapp');
-const mavenOutputFolderForResourceFiles = path.resolve(__dirname, 'target/META-INF/VAADIN');
+const mavenOutputFolderForFlowBundledFiles = path.resolve(__dirname, 'build/resources/main/META-INF/VAADIN/webapp');
+const mavenOutputFolderForResourceFiles = path.resolve(__dirname, 'build/resources/main/META-INF/VAADIN');
 const useClientSideIndexFileForBootstrapping = true;
 const clientSideIndexHTML = path.resolve(__dirname, 'target/index.html');
 const clientSideIndexEntryPoint = path.resolve(__dirname, 'frontend', 'generated/', 'vaadin.ts');;
@@ -60,7 +60,7 @@ const projectStaticAssetsFolders = [
   frontendFolder
 ];
 
-const projectStaticAssetsOutputFolder = path.resolve(__dirname, 'target/META-INF/VAADIN/webapp/VAADIN/static');
+const projectStaticAssetsOutputFolder = path.resolve(__dirname, 'build/resources/main/META-INF/VAADIN/webapp/VAADIN/static');
 
 // Folders in the project which can contain application themes
 const themeProjectFolders = projectStaticAssetsFolders.map((folder) =>
@@ -86,10 +86,8 @@ let stats;
 
 // Open a connection with the Java dev-mode handler in order to finish
 // webpack-dev-mode when it exits or crashes.
-const watchDogPrefix = '--watchDogPort=';
-let watchDogPort = devMode && process.argv.find(v => v.indexOf(watchDogPrefix) >= 0);
+const watchDogPort = devMode && process.env.watchDogPort;
 if (watchDogPort) {
-  watchDogPort = watchDogPort.substr(watchDogPrefix.length);
   const runWatchDog = () => {
     const client = new require('net').Socket();
     client.setEncoding('utf8');
@@ -173,12 +171,7 @@ if (devMode) {
 }
 
 const flowFrontendThemesFolder = path.resolve(flowFrontendFolder, 'themes');
-let themeName = undefined;
-if (devMode) {
-  // Current theme name is being extracted from theme.js located in frontend
-  // generated folder
-  themeName = extractThemeName(frontendGeneratedFolder);
-}
+const themeName = extractThemeName(flowFrontendThemesFolder);
 const themeOptions = {
   devMode: devMode,
   // The following matches folder 'target/flow-frontend/themes/'
@@ -312,15 +305,14 @@ module.exports = {
 
     new ApplicationThemePlugin(themeOptions),
 
-    ...(devMode && themeName ? [new ExtraWatchWebpackPlugin({
+    devMode && themeName && new ExtraWatchWebpackPlugin({
       files: [],
-      // Watch the components folder for component styles update.
-      // Other folders or CSS files except 'styles.css' should be
-      // referenced from `styles.css` anyway, so no need to watch them.
-      dirs: [path.resolve(__dirname, 'frontend', 'themes', themeName, 'components'),
-        path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'themes', themeName, 'components'),
-        path.resolve(__dirname, 'src', 'main', 'resources', 'static', 'themes', themeName, 'components')]
-    }), new ThemeLiveReloadPlugin(processThemeResourcesCallback)] : []),
+      dirs: [path.resolve(__dirname, 'frontend', 'themes', themeName),
+        path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'themes', themeName),
+        path.resolve(__dirname, 'src', 'main', 'resources', 'static', 'themes', themeName)]
+    }),
+
+    devMode && themeName && new ThemeLiveReloadPlugin(themeName, processThemeResourcesCallback),
 
     new StatsPlugin({
       devMode: devMode,

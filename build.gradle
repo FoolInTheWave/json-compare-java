@@ -1,20 +1,28 @@
-plugins {
-    id 'org.springframework.boot' version '2.4.5'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
-
-    id 'com.vaadin' version '0.17.0.1'
+// remove when vaadin plugin 0.20.0.0 is in production
+buildscript {
+    repositories {
+        maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
+    }
 }
 
-defaultTasks("clean", "vaadinBuildFrontend", "build")
+plugins {
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+
+    id 'com.vaadin' version '20.0.0.alpha6'
+}
+
+defaultTasks("clean", "build")
 
 group = 'dev.calebmiller.web'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0-RELEASE'
 description = 'JSON Comparison'
 sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
+    maven { setUrl("https://maven.vaadin.com/vaadin-addons") }
 }
 
 ext {
@@ -47,5 +55,5 @@ test {
 }
 
 vaadin {
-    optimizeBundle = false
+    pnpmEnable = false
 }

@@ -91,10 +91,15 @@ public class JsonCompareView extends HorizontalLayout {
 			List<FieldComparison> fieldComparisons = jsonObjectComparator.compare(object1, object2);
 			try {
 				TreeGrid<FieldComparison> grid = new TreeGrid<>();
+				// Set the fields from each object to the table
 				grid.setItems(fieldComparisons, FieldComparison::getChildFields);
+				// This is the main column of the table, this will be the name of the field in the JSON object
 				grid.addHierarchyColumn(FieldComparison::getFieldName).setHeader("Field");
+				// This column with be for the value of the field on the first JSON object
 				grid.addColumn(FieldComparison::getField1Value).setHeader("Object 1");
+				// This column with be for the value of the field on the second JSON object
 				grid.addColumn(FieldComparison::getField2Value).setHeader("Object 2");
+				// If the field between the objects doesn't match then set a CSS style class to the row (it will highlight the row red)
 				grid.setClassNameGenerator(fieldComparison -> !fieldComparison.getMatch() ? "mismatch mismatch-value" : "");
 				grid.setId("jsonCompareTreeGrid");
 

@@ -3,13 +3,9 @@
 A simple Vaadin web application that compares two JSON objects and highlights the differences.
 
 ## To Build for Development
-For the initial build:
+Build via Gradle wrapper:
 
-`./gradlew clean build vaadinPrepareFrontend`
-
-For subsequent builds:
-
-`./gradlew`
+`./gradlew vaadinBuildFrontend build`
 
 ## To Build for Production
 `./gradlew clean build -Pvaadin.productionMode`

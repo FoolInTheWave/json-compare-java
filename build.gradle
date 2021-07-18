@@ -1,16 +1,9 @@
-// remove when vaadin plugin 0.20.0.0 is in production
-buildscript {
-    repositories {
-        maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
-    }
-}
-
 plugins {
     id 'org.springframework.boot' version '2.2.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
 
-    id 'com.vaadin' version '20.0.0.alpha6'
+    id 'com.vaadin' version '20.0.3'
 }
 
 defaultTasks("clean", "build")
@@ -26,7 +19,7 @@ repositories {
 }
 
 ext {
-    set('vaadinVersion', "19.0.5")
+    set('vaadinVersion', "20.0.3")
 }
 
 configurations {
@@ -37,16 +30,12 @@ configurations {
 }
 
 dependencies {
+    implementation enforcedPlatform("com.vaadin:vaadin-bom:$vaadinVersion")
+
     implementation('com.vaadin:vaadin-spring-boot-starter')
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
     }
 }
 
